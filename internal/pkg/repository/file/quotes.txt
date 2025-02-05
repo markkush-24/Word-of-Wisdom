@@ -1,0 +1,6 @@
+"The best programmers are not marginally better than merely good ones. They are an order-of-magnitude better, measured by whatever standard: conceptual creativity, speed, ingenuity of design, or problem-solving ability." - Randall E. Stross
+"People think that computer science is the art of geniuses but the actual reality is the opposite, just many people doing things that build on each other, like a wall of mini stones." - Donald Knuth
+"Most of you are familiar with the virtues of a programmer. There are three, of course: laziness, impatience, and hubris." - Larry Wall
+"Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program." - Linus Torvalds
+"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live." - Martin Golding
+"Nine people can’t make a baby in a month." – Fred Brooks
