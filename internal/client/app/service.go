@@ -31,7 +31,7 @@ func (c *ClientService) Start() error {
 	conn, err := c.conn.Connect(c.address)
 	if err != nil {
 		c.logger.Error("Error connecting to the server", err)
-		return err
+		return fmt.Errorf("client service: failed to connect to server at %s: %w", c.address, err)
 	}
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -57,7 +57,7 @@ func (c *ClientService) Start() error {
 	err = c.conn.SendMessage(conn, solution)
 	if err != nil {
 		c.logger.Error("Error sending solution", err)
-		return err
+		return fmt.Errorf("client service: failed to send PoW solution: %w", err)
 	}
 	c.logger.Info("Solution sent to the server.")
 
@@ -65,7 +65,7 @@ func (c *ClientService) Start() error {
 	quote, err := c.conn.ReadMessage(conn)
 	if err != nil {
 		c.logger.Error("Error receiving quote", err)
-		return err
+		return fmt.Errorf("client service: failed to receive quote: %w", err)
 	}
 	c.logger.Info(fmt.Sprintf("Quote received: %s", quote))
 

@@ -33,7 +33,7 @@ func NewQuoteRepository(source RepoSelector) (*QuoteRepository, error) {
 		return nil, fmt.Errorf("unknown source: %s", source)
 	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("QuoteRepository: failed to create JSON repo: %w", err)
 	}
 	return &QuoteRepository{repo: repo}, nil
 }

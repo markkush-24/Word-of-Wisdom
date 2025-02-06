@@ -17,7 +17,7 @@ func (s *TCPConnectionService) Connect(address string) (net.Conn, error) {
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
 		s.logger.Error(fmt.Sprintf("Failed to connect to the server: %v", err))
-		return nil, err
+		return nil, fmt.Errorf("TCPConnectionService: failed to dial %s: %w", address, err)
 	}
 	return conn, nil
 }
@@ -29,7 +29,7 @@ func (s *TCPConnectionService) ReadMessage(conn net.Conn) (string, error) {
 	n, err := conn.Read(buffer)
 	if err != nil {
 		s.logger.Error(fmt.Sprintf("Error reading message from server: %v", err))
-		return "", err
+		return "", fmt.Errorf("TCPConnectionService: failed to read message: %w", err)
 	}
 	return string(buffer[:n]), nil
 }
@@ -37,10 +37,9 @@ func (s *TCPConnectionService) ReadMessage(conn net.Conn) (string, error) {
 // SendMessage sends the specified message through the provided TCP connection.
 // It returns an error if the sending fails.
 func (s *TCPConnectionService) SendMessage(conn net.Conn, message string) error {
-	_, err := fmt.Fprintf(conn, "%s\n", message)
-	if err != nil {
+	if _, err := fmt.Fprintf(conn, "%s\n", message); err != nil {
 		s.logger.Error(fmt.Sprintf("Error sending message: %v", err))
-		return err
+		return fmt.Errorf("TCPConnectionService: failed to send message: %w", err)
 	}
 	return nil
 }

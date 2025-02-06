@@ -6,6 +6,7 @@ import (
 	"context"
 	"crypto/rand"
 	_ "embed"
+	"fmt"
 	"math/big"
 	"regexp"
 	"strings"
@@ -52,7 +53,7 @@ func NewFileRepoQuote() *QuoteRepo {
 func (q *QuoteRepo) GetQuote(ctx context.Context) (model.Quote, error) {
 	n, err := rand.Int(rand.Reader, big.NewInt(int64(len(q.quotes))))
 	if err != nil {
-		return model.Quote{}, err
+		return model.Quote{}, fmt.Errorf("FileRepo: failed to generate random index: %w", err)
 	}
 	quote := q.quotes[n.Int64()]
 	return quote, nil

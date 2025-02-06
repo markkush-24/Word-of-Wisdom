@@ -17,7 +17,8 @@ func HandlePoWRequest(conn net.Conn, log logger.Logger) (string, error) {
 	// Send the challenge to the client
 	if _, err := fmt.Fprintf(conn, "%s\n", challenge); err != nil {
 		log.Error(fmt.Sprintf("Error sending PoW challenge to the client: %v", err))
-		return "", err
+		return "", fmt.Errorf("HandlePoWRequest: failed to send challenge %q: %w", challenge, err)
+
 	}
 
 	// Wait for the client to send the PoW solution
@@ -25,7 +26,7 @@ func HandlePoWRequest(conn net.Conn, log logger.Logger) (string, error) {
 	log.Info("Waiting for PoW solution from the client")
 	if _, err := fmt.Fscanf(conn, "%s", &solution); err != nil {
 		log.Error(fmt.Sprintf("Error receiving PoW solution from the client: %v", err))
-		return "", err
+		return "", fmt.Errorf("HandlePoWRequest: failed to receive PoW solution: %w", err)
 	}
 	log.Info(fmt.Sprintf("PoW solution received from the client: %s", solution))
 
@@ -37,7 +38,7 @@ func SendQuoteToClient(conn net.Conn, quote model.Quote, log logger.Logger) erro
 	quoteMessage := fmt.Sprintf("Quote: \"%s\" - Author: %s", quote.Quote, quote.Author)
 	if _, err := fmt.Fprintf(conn, "%s", quoteMessage); err != nil {
 		log.Error(fmt.Sprintf("Error sending quote to the client: %v", err))
-		return err
+		return fmt.Errorf("SendQuoteToClient: failed to send quote: %w", err)
 	}
 	log.Info(fmt.Sprintf("Quote sent to the client: %s", quoteMessage))
 	return nil

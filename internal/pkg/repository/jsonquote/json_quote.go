@@ -45,7 +45,7 @@ func NewJSONRepoQuote() (*Repo, error) {
 func (r *Repo) GetQuote(ctx context.Context) (model.Quote, error) {
 	n, err := rand.Int(rand.Reader, big.NewInt(int64(len(r.quotes))))
 	if err != nil {
-		return model.Quote{}, fmt.Errorf("failed to generate secure random number: %w", err)
+		return model.Quote{}, fmt.Errorf("JSONRepo: failed to generate secure random number: %w", err)
 	}
 	return r.quotes[n.Int64()], nil
 }
