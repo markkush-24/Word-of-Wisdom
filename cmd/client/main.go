@@ -29,7 +29,7 @@ func main() {
 	// Pass all necessary arguments to NewClientService.
 	// Note: The PoW solver now expects a challenge.
 	clientService := app.NewClientService(
-		core.ServerAddress, powsolver.NewSimplePoW(core.PoWTarget, log), connService, log)
+		core.ServerAddressDocker, powsolver.NewSimplePoW(core.PoWTarget, log), connService, log)
 
 	// Start the client.
 	err = clientService.Start()
