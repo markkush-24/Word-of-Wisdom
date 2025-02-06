@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 	"word_of_wisdom/internal/client/network"
 	logger "word_of_wisdom/internal/pkg/logging"
 	"word_of_wisdom/internal/pkg/pow"
@@ -47,6 +48,7 @@ func (c *ClientService) Start() error {
 		c.logger.Error("Error reading challenge", err)
 		return fmt.Errorf("client service: failed to read message: %w", err)
 	}
+	challenge = strings.TrimSpace(challenge)
 	c.logger.Info(fmt.Sprintf("Challenge received: %s", challenge))
 
 	// Generate PoW solution using the challenge.

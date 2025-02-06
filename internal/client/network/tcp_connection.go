@@ -3,6 +3,7 @@ package network
 import (
 	"fmt"
 	"net"
+	core "word_of_wisdom/config"
 
 	logger "word_of_wisdom/internal/pkg/logging"
 )
@@ -14,7 +15,7 @@ type TCPConnectionService struct {
 // Connect establishes a TCP connection to the specified address.
 // It returns the connection or an error if the connection fails.
 func (s *TCPConnectionService) Connect(address string) (net.Conn, error) {
-	conn, err := net.Dial("tcp", address)
+	conn, err := net.Dial(core.ConnectionTypeTCP, address)
 	if err != nil {
 		s.logger.Error(fmt.Sprintf("Failed to connect to the server: %v", err))
 		return nil, fmt.Errorf("TCPConnectionService: failed to dial %s: %w", address, err)
@@ -42,4 +43,10 @@ func (s *TCPConnectionService) SendMessage(conn net.Conn, message string) error 
 		return fmt.Errorf("TCPConnectionService: failed to send message: %w", err)
 	}
 	return nil
+}
+
+func init() {
+	RegisterConnectionType(core.ConnectionTypeTCP, func() ConnectionService {
+		return &TCPConnectionService{}
+	})
 }
