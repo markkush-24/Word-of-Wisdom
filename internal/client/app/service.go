@@ -45,7 +45,7 @@ func (c *ClientService) Start() error {
 	challenge, err := c.conn.ReadMessage(conn)
 	if err != nil {
 		c.logger.Error("Error reading challenge", err)
-		return err
+		return fmt.Errorf("client service: failed to read message: %w", err)
 	}
 	c.logger.Info(fmt.Sprintf("Challenge received: %s", challenge))
 
